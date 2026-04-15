@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jenny Riemer — AI Automation Strategist</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f0e0e;
+      color: #e8ddd5;
+      font-family: Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 3rem 2.5rem 2rem;
+    }
+
+    .hero-name {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 400;
+      color: #d4937a;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+      font-family: Georgia, serif;
+    }
+
+    .hero-sub {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: #8a7d74;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: #6a5f58;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #2a1f1a;
+      border: 1px solid #2a1f1a;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+
+    .project-card {
+      background: #141110;
+      padding: 1.6rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .project-card:hover { background: #1e1714; }
+
+    .project-date {
+      font-family: 'Courier New', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: #d4937a;
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+
+    .project-title {
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: #d4937a;
+      margin-bottom: 0.8rem;
+      font-family: Georgia, serif;
+      line-height: 1.2;
+    }
+
+    .project-desc {
+      font-size: 0.82rem;
+      color: #9a8e87;
+      line-height: 1.6;
+      font-family: 'Courier New', monospace;
+    }
+
+    .click-hint {
+      font-family: 'Courier New', monospace;
+      font-size: 0.58rem;
+      color: #4a3f3a;
+      letter-spacing: 0.15em;
+      margin-top: 1rem;
+      text-transform: uppercase;
+    }
+
+    .stack-section { margin-bottom: 2rem; }
+
+    .stack-categories {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .stack-row {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+
+    .stack-cat-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: #6a5f58;
+      text-transform: uppercase;
+      min-width: 110px;
+      flex-shrink: 0;
+    }
+
+    .stack-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .badge {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: #b8a89e;
+      border: 0.5px solid #3a2f2a;
+      padding: 4px 10px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #141110;
+      border: 0.5px solid #3a2f2a;
+      border-radius: 4px;
+      max-width: 580px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .modal-date {
+      font-family: 'Courier New', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: #d4937a;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #d4937a;
+      margin-bottom: 1rem;
+      font-family: Georgia, serif;
+    }
+
+    .modal-summary {
+      font-size: 0.82rem;
+      color: #c8bdb6;
+      line-height: 1.7;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 1.2rem;
+      border-left: 2px solid #3a2f2a;
+      padding-left: 1rem;
+    }
+
+    .modal-contributions {
+      font-family: 'Courier New', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: #6a5f58;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .modal-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .modal-list li {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      color: #9a8e87;
+      line-height: 1.5;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .modal-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #d4937a;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: 0.5px solid #3a2f2a;
+      color: #6a5f58;
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      padding: 4px 10px;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .modal-close:hover { color: #d4937a; border-color: #d4937a; }
+
+    @media (max-width: 600px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      body { padding: 2rem 1.25rem; }
+      .stack-cat-label { min-width: 80px; font-size: 0.55rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="hero-name">Jenny Riemer</h1>
+  <p class="hero-sub">AI Automation Strategist &nbsp;//&nbsp; Orchestrating Intelligence</p>
+
+  <p class="section-label">Selected Deployments</p>
+  <div class="projects-grid">
+    <div class="project-card" onclick="openModal('clawbot')">
+      <div class="project-date">Apr 2026 — Present</div>
+      <div class="project-title">ClawBot</div>
+      <div class="project-desc">Autonomous AI agent on Mac Mini automating SEO, marketing workflows, Instagram DM outreach, and monthly performance reporting.</div>
+      <div class="click-hint">↗ View details</div>
+    </div>
+    <div class="project-card" onclick="openModal('webdev')">
+      <div class="project-date">Jan — May 2025</div>
+      <div class="project-title">AI Website Development</div>
+      <div class="project-desc">Built production websites with Lovable & Google AI Studio. Cut dev time from weeks to days using AI-assisted coding and design.</div>
+      <div class="click-hint">↗ View details</div>
+    </div>
+    <div class="project-card" onclick="openModal('blog')">
+      <div class="project-date">May 2024</div>
+      <div class="project-title">Automated Blog & Image Pipeline</div>
+      <div class="project-desc">Make.com/n8n system publishing AI-generated content + images to 70+ websites daily. Achieved 90%+ time savings.</div>
+      <div class="click-hint">↗ View details</div>
+    </div>
+    <div class="project-card" onclick="openModal('zoho')">
+      <div class="project-date">2024</div>
+      <div class="project-title">Zoho CRM Commission Automation</div>
+      <div class="project-desc">Built sales, invoice, and commission automation in Zoho CRM using AI-assisted workflow logic and custom scripting.</div>
+      <div class="click-hint">↗ View details</div>
+    </div>
+  </div>
+
+  <p class="section-label">Core Stack</p>
+  <div class="stack-section">
+    <div class="stack-categories">
+      <div class="stack-row">
+        <div class="stack-cat-label">AI Assistants</div>
+        <div class="stack-badges">
+          <span class="badge">Claude</span>
+          <span class="badge">Claude Code</span>
+          <span class="badge">Claude Co-Worker</span>
+          <span class="badge">OpenAI</span>
+          <span class="badge">Google AI Studio</span>
+          <span class="badge">Gemma</span>
+          <span class="badge">Ollama</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-cat-label">Automation</div>
+        <div class="stack-badges">
+          <span class="badge">Make.com</span>
+          <span class="badge">n8n</span>
+          <span class="badge">ClawBot</span>
+          <span class="badge">ClawX</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-cat-label">Web Building</div>
+        <div class="stack-badges">
+          <span class="badge">Lovable</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-cat-label">Image / Visual</div>
+        <div class="stack-badges">
+          <span class="badge">Leonardo.ai</span>
+          <span class="badge">Runway</span>
+        </div>
+      </div>
+      <div class="stack-row">
+        <div class="stack-cat-label">Video / Avatar</div>
+        <div class="stack-badges">
+          <span class="badge">HeyGen</span>
+          <span class="badge">Nano Banana</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-overlay" onclick="closeOnOverlay(event)">
+    <div class="modal" id="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕ Close</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const projects = {
+      clawbot: {
+        date: 'Apr 2026 — Present',
+        title: 'ClawBot: Autonomous AI Operations Agent',
+        summary: 'Designed and programmed ClawBot, a self-operating AI agent running locally on a Mac Mini to automate daily and monthly business operations, marketing workflows, and SEO management without human intervention.',
+        items: [
+          'Built an autonomous AI workflow system capable of executing scheduled and trigger-based tasks independently',
+          'Automated keyword research and SEO opportunity discovery',
+          'Sourcing and qualifying interior designers as potential partners and leads',
+          'Automated outreach via Instagram DM campaigns',
+          'Continuous website SEO ranking monitoring and tracking',
+          'Data aggregation and performance analytics reporting',
+          'Implemented recurring daily and monthly task orchestration',
+          'Integrated multiple APIs, scraping workflows, and AI decision logic',
+          'Created automated monthly performance reports summarizing growth metrics and outreach results',
+          'Deployed locally on a dedicated Mac Mini for persistent 24/7 execution'
+        ]
+      },
+      webdev: {
+        date: 'Jan — May 2025',
+        title: 'AI-Generated Website Development & Deployment',
+        summary: 'Designed and launched multiple production-ready websites using AI-assisted development platforms, accelerating web creation, branding, and deployment timelines through automated design and content generation workflows.',
+        items: [
+          'Built and deployed multiple websites using Lovable and Google AI Studio',
+          'Leveraged AI-assisted coding and design tools to rapidly generate site structure, layouts, and functionality',
+          'Developed automated content creation workflows for landing pages, SEO copy, and branding assets',
+          'Implemented responsive design standards and modern UX/UI principles',
+          'Integrated analytics, SEO optimization, and performance tracking during deployment',
+          'Reduced traditional website development timelines from weeks to days'
+        ]
+      },
+      blog: {
+        date: 'May 2024',
+        title: 'Automated Blog Content & Image Generation System',
+        summary: 'Designed and deployed a fully automated AI content pipeline to generate and publish daily blog content across 70+ websites, eliminating manual publishing workflows and significantly reducing operational labor hours.',
+        items: [
+          'Built end-to-end automation workflows using Make.com and n8n',
+          'Developed AI-driven content generation using LLM APIs for daily blog creation',
+          'Automated AI image generation aligned with blog topics and SEO strategy',
+          'Implemented scheduled publishing pipelines distributing content across 70+ websites',
+          'Integrated CMS platforms via APIs for hands-off posting and formatting',
+          'Created error handling, retry logic, and monitoring systems to ensure uptime',
+          'Reduced manual content production and publishing time by 90%+'
+        ]
+      },
+      zoho: {
+        date: '2024',
+        title: 'Zoho CRM Sales & Commission Automation System',
+        summary: 'Designed and developed an intelligent automation framework within Zoho CRM to streamline sales operations, automate invoice generation, and calculate commission workflows for the sales team, consolidating fragmented processes into a single unified system.',
+        items: [
+          'Architected a centralized CRM workflow eliminating manual handoffs between sales and accounting teams',
+          'Automated invoice creation directly from sales pipeline data',
+          'Built commission tracking and calculation logic tied to deal stages and revenue events',
+          'Leveraged Claude, OpenAI, and Zoho Co-Worker AI tools to troubleshoot complex workflow logic',
+          'Implemented automated internal communications and status updates for sales representatives',
+          'Designed scalable automation rules to support future team growth',
+          'Reduced dependency on manual spreadsheets and external accounting coordination'
+        ]
+      }
+    };
+
+    function openModal(key) {
+      const p = projects[key];
+      document.getElementById('modal-body').innerHTML = `
+        <div class="modal-date">${p.date}</div>
+        <div class="modal-title">${p.title}</div>
+        <div class="modal-summary">${p.summary}</div>
+        <div class="modal-contributions">Key Contributions</div>
+        <ul class="modal-list">${p.items.map(i => `<li>${i}</li>`).join('')}</ul>
+      `;
+      document.getElementById('modal-overlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+    }
+
+    function closeOnOverlay(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    }
+  </script>
+
+</body>
+</html>
