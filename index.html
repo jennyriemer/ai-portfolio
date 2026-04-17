@@ -4,288 +4,476 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jenny Riemer — AI Automation Strategist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: #0f0e0e;
-      color: #e8ddd5;
-      font-family: Georgia, 'Times New Roman', serif;
+      background: #f5f0eb;
+      color: #1a1a1a;
+      font-family: 'Inter', system-ui, sans-serif;
       min-height: 100vh;
-      padding: 3rem 2.5rem 2rem;
     }
 
-    .hero-name {
-      font-size: clamp(2.8rem, 7vw, 5rem);
-      font-weight: 400;
-      color: #d4937a;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      margin-bottom: 0.6rem;
-      font-family: Georgia, serif;
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 2.5rem;
+      border-bottom: 1px solid #e0d9d2;
+      background: #f5f0eb;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #6a8f6a;
+      letter-spacing: 0.05em;
+    }
+    .pulse {
+      width: 7px;
+      height: 7px;
+      background: #6a8f6a;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
 
-    .hero-sub {
-      font-family: 'Courier New', monospace;
-      font-size: 0.75rem;
+    .hero {
+      padding: 5rem 2.5rem 3.5rem;
+      max-width: 900px;
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 500;
       letter-spacing: 0.25em;
-      color: #8a7d74;
-      text-transform: uppercase;
-      margin-bottom: 3rem;
-    }
-
-    .section-label {
-      font-family: 'Courier New', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      color: #6a5f58;
+      color: #b07355;
       text-transform: uppercase;
       margin-bottom: 1.2rem;
     }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: #2a1f1a;
-      border: 1px solid #2a1f1a;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 3rem;
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin-bottom: 1.5rem;
     }
-
-    .project-card {
-      background: #141110;
-      padding: 1.6rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      position: relative;
+    .hero-tagline {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 300;
+      color: #5a5450;
+      line-height: 1.6;
+      max-width: 540px;
+      margin-bottom: 2.5rem;
     }
-
-    .project-card:hover { background: #1e1714; }
-
-    .project-date {
-      font-family: 'Courier New', monospace;
+    .hero-tagline strong { font-weight: 600; color: #1a1a1a; }
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .stat { display: flex; flex-direction: column; gap: 3px; }
+    .stat-num {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.03em;
+    }
+    .stat-label {
       font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      color: #d4937a;
+      font-weight: 500;
+      color: #a0958e;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .divider { height: 1px; background: #e0d9d2; margin: 0 2.5rem; }
+
+    .featured-wrap { padding: 3rem 2.5rem; }
+    .section-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      color: #a0958e;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .featured-card {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 2.5rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    }
+    .featured-card::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(176,115,85,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .featured-tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #b07355;
+      border: 1px solid rgba(176,115,85,0.35);
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 1.2rem;
+    }
+    .featured-date {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: #666;
       text-transform: uppercase;
       margin-bottom: 0.7rem;
     }
-
-    .project-title {
-      font-size: 1.35rem;
-      font-weight: 400;
-      color: #d4937a;
-      margin-bottom: 0.8rem;
-      font-family: Georgia, serif;
-      line-height: 1.2;
+    .featured-title {
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+      font-weight: 700;
+      color: #f5f0eb;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      max-width: 560px;
     }
-
-    .project-desc {
-      font-size: 0.82rem;
-      color: #9a8e87;
-      line-height: 1.6;
-      font-family: 'Courier New', monospace;
+    .featured-desc {
+      font-size: 0.88rem;
+      color: #9a9490;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 1.8rem;
     }
-
-    .click-hint {
-      font-family: 'Courier New', monospace;
-      font-size: 0.58rem;
-      color: #4a3f3a;
-      letter-spacing: 0.15em;
-      margin-top: 1rem;
-      text-transform: uppercase;
-    }
-
-    .stack-section { margin-bottom: 2rem; }
-
-    .stack-categories {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .stack-row {
+    .featured-pipeline {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
+      gap: 0.45rem;
       flex-wrap: wrap;
+      margin-bottom: 1.8rem;
+    }
+    .pipe-step {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: #f5f0eb;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 5px 11px;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+    .pipe-arrow { font-size: 0.65rem; color: #b07355; }
+    .featured-cta {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #b07355;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .stack-cat-label {
-      font-family: 'Courier New', monospace;
+    .projects-wrap { padding: 0 2.5rem 3rem; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .project-card {
+      background: #faf7f4;
+      border: 1px solid #e0d9d2;
+      border-radius: 10px;
+      padding: 1.6rem 1.6rem 2.8rem;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+    }
+    .project-card:hover {
+      border-color: #b07355;
+      transform: translateY(-1px);
+    }
+    .project-date {
       font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: #6a5f58;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: #b07355;
       text-transform: uppercase;
-      min-width: 110px;
+      margin-bottom: 0.55rem;
+    }
+    .project-title {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 0.55rem;
+      line-height: 1.25;
+    }
+    .project-desc {
+      font-size: 0.78rem;
+      color: #6a6460;
+      line-height: 1.65;
+    }
+    .project-arrow {
+      position: absolute;
+      bottom: 1.3rem;
+      right: 1.4rem;
+      font-size: 0.8rem;
+      color: #ccc5be;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .project-card:hover .project-arrow { color: #b07355; transform: translate(2px, -2px); }
+
+    .stack-wrap {
+      padding: 2rem 2.5rem 3rem;
+      border-top: 1px solid #e0d9d2;
+    }
+    .stack-grid { display: flex; flex-direction: column; gap: 0.9rem; }
+    .stack-row { display: flex; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+    .stack-cat {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: #b07355;
+      text-transform: uppercase;
+      min-width: 90px;
+      padding-top: 5px;
       flex-shrink: 0;
     }
+    .stack-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: #3a3330;
+      border: 1px solid #ddd8d2;
+      background: #faf7f4;
+      padding: 4px 11px;
+      border-radius: 4px;
+    }
 
-    .stack-badges {
+    footer {
+      border-top: 1px solid #e0d9d2;
+      padding: 1.5rem 2.5rem;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-
-    .badge {
-      font-family: 'Courier New', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      color: #b8a89e;
-      border: 0.5px solid #3a2f2a;
-      padding: 4px 10px;
-      border-radius: 2px;
-      white-space: nowrap;
-    }
+    .footer-name { font-size: 0.72rem; font-weight: 500; color: #a0958e; }
+    .footer-note { font-size: 0.65rem; color: #c0b8b0; }
 
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.75);
+      background: rgba(15,14,14,0.55);
       z-index: 100;
       align-items: center;
       justify-content: center;
       padding: 2rem;
+      backdrop-filter: blur(4px);
     }
-
     .modal-overlay.open { display: flex; }
-
     .modal {
-      background: #141110;
-      border: 0.5px solid #3a2f2a;
-      border-radius: 4px;
-      max-width: 580px;
+      background: #faf7f4;
+      border: 1px solid #e0d9d2;
+      border-radius: 12px;
+      max-width: 600px;
       width: 100%;
-      max-height: 80vh;
+      max-height: 82vh;
       overflow-y: auto;
-      padding: 2rem;
+      padding: 2.2rem;
       position: relative;
     }
-
     .modal-date {
-      font-family: 'Courier New', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      color: #d4937a;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: #b07355;
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
-
     .modal-title {
-      font-size: 1.5rem;
-      font-weight: 400;
-      color: #d4937a;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #1a1a1a;
       margin-bottom: 1rem;
-      font-family: Georgia, serif;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
     }
-
     .modal-summary {
-      font-size: 0.82rem;
-      color: #c8bdb6;
-      line-height: 1.7;
-      font-family: 'Courier New', monospace;
-      margin-bottom: 1.2rem;
-      border-left: 2px solid #3a2f2a;
+      font-size: 0.84rem;
+      color: #3a3330;
+      line-height: 1.75;
+      margin-bottom: 1.4rem;
+      border-left: 3px solid #b07355;
       padding-left: 1rem;
     }
-
     .modal-contributions {
-      font-family: 'Courier New', monospace;
-      font-size: 0.62rem;
+      font-size: 0.6rem;
+      font-weight: 600;
       letter-spacing: 0.2em;
-      color: #6a5f58;
+      color: #a0958e;
       text-transform: uppercase;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.7rem;
     }
-
-    .modal-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
+    .modal-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
     .modal-list li {
-      font-family: 'Courier New', monospace;
-      font-size: 0.75rem;
-      color: #9a8e87;
-      line-height: 1.5;
-      padding-left: 1rem;
+      font-size: 0.82rem;
+      color: #3a3330;
+      line-height: 1.6;
+      padding-left: 1.2rem;
       position: relative;
     }
-
     .modal-list li::before {
-      content: '—';
+      content: '→';
       position: absolute;
       left: 0;
-      color: #d4937a;
+      color: #b07355;
+      font-size: 0.7rem;
+      top: 3px;
     }
-
     .modal-close {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
+      top: 1.2rem;
+      right: 1.2rem;
       background: none;
-      border: 0.5px solid #3a2f2a;
-      color: #6a5f58;
-      font-family: 'Courier New', monospace;
+      border: 1px solid #e0d9d2;
+      color: #a0958e;
+      font-family: 'Inter', sans-serif;
       font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      padding: 4px 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      padding: 5px 12px;
       cursor: pointer;
-      border-radius: 2px;
+      border-radius: 5px;
+      transition: all 0.15s;
     }
+    .modal-close:hover { color: #b07355; border-color: #b07355; }
 
-    .modal-close:hover { color: #d4937a; border-color: #d4937a; }
-
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
+      nav, .hero, .featured-wrap, .projects-wrap, .stack-wrap, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .hero { padding-top: 3rem; }
       .projects-grid { grid-template-columns: 1fr; }
-      body { padding: 2rem 1.25rem; }
-      .stack-cat-label { min-width: 80px; font-size: 0.55rem; }
+      .hero-stats { gap: 1.5rem; }
+      .divider { margin: 0 1.25rem; }
     }
   </style>
 </head>
 <body>
 
-  <h1 class="hero-name">Jenny Riemer</h1>
-  <p class="hero-sub">AI Automation Strategist &nbsp;//&nbsp; Orchestrating Intelligence</p>
+  <nav>
+    <div class="nav-name">Jenny Riemer</div>
+    <div class="nav-status">
+      <div class="pulse"></div>
+      Systems running
+    </div>
+  </nav>
 
-  <p class="section-label">Selected Deployments</p>
-  <div class="projects-grid">
-    <div class="project-card" onclick="openModal('clawbot')">
-      <div class="project-date">Apr 2026 — Present</div>
-      <div class="project-title">ClawBot</div>
-      <div class="project-desc">Autonomous AI agent on Mac Mini automating SEO, marketing workflows, Instagram DM outreach, and monthly performance reporting.</div>
-      <div class="click-hint">↗ View details</div>
-    </div>
-    <div class="project-card" onclick="openModal('webdev')">
-      <div class="project-date">Jan — May 2025</div>
-      <div class="project-title">AI Website Development</div>
-      <div class="project-desc">Built production websites with Lovable & Google AI Studio. Cut dev time from weeks to days using AI-assisted coding and design.</div>
-      <div class="click-hint">↗ View details</div>
-    </div>
-    <div class="project-card" onclick="openModal('blog')">
-      <div class="project-date">May 2024</div>
-      <div class="project-title">Automated Blog & Image Pipeline</div>
-      <div class="project-desc">Make.com/n8n system publishing AI-generated content + images to 70+ websites daily. Achieved 90%+ time savings.</div>
-      <div class="click-hint">↗ View details</div>
-    </div>
-    <div class="project-card" onclick="openModal('zoho')">
-      <div class="project-date">2024</div>
-      <div class="project-title">Zoho CRM Commission Automation</div>
-      <div class="project-desc">Built sales, invoice, and commission automation in Zoho CRM using AI-assisted workflow logic and custom scripting.</div>
-      <div class="click-hint">↗ View details</div>
+  <div class="hero">
+    <div class="hero-eyebrow">AI Automation Strategist</div>
+    <h1 class="hero-name">I build systems<br>that run without you.</h1>
+    <p class="hero-tagline">Autonomous agents, voice pipelines, and end-to-end automations for businesses that want to <strong>stop doing things manually.</strong></p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">70+</span>
+        <span class="stat-label">Sites automated</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">90%</span>
+        <span class="stat-label">Time savings</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">50+</span>
+        <span class="stat-label">Questions per AI call</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">24/7</span>
+        <span class="stat-label">Zero human ops</span>
+      </div>
     </div>
   </div>
 
-  <p class="section-label">Core Stack</p>
-  <div class="stack-section">
-    <div class="stack-categories">
+  <div class="divider"></div>
+
+  <div class="featured-wrap">
+    <p class="section-label">Featured Build</p>
+    <div class="featured-card" onclick="openModal('voiceintake')">
+      <div class="featured-tag">★ Latest Project</div>
+      <div class="featured-date">2026</div>
+      <h2 class="featured-title">AI Voice Intake System</h2>
+      <p class="featured-desc">A fully autonomous intake pipeline for Social Security Disability cases. An AI voice agent answers inbound calls, conducts a structured 50+ question interview, and hands off to a computer use agent — no human ever touches the process.</p>
+      <div class="featured-pipeline">
+        <span class="pipe-step">Inbound Call</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step">Retell AI Voice Agent</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step">OpenCall Webhook</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step">OpenClaw Computer Use</span>
+        <span class="pipe-arrow">→</span>
+        <span class="pipe-step">Google Sheets + Email Alert</span>
+      </div>
+      <div class="featured-cta">↗ View full breakdown</div>
+    </div>
+  </div>
+
+  <div class="projects-wrap">
+    <p class="section-label">More Deployments</p>
+    <div class="projects-grid">
+      <div class="project-card" onclick="openModal('clawbot')">
+        <div class="project-date">Apr 2026 — Present</div>
+        <div class="project-title">ClawBot</div>
+        <div class="project-desc">Autonomous AI agent on Mac Mini running SEO, Instagram DM outreach, and monthly reporting around the clock.</div>
+        <div class="project-arrow">↗</div>
+      </div>
+      <div class="project-card" onclick="openModal('blog')">
+        <div class="project-date">May 2024</div>
+        <div class="project-title">Automated Blog & Image Pipeline</div>
+        <div class="project-desc">Make.com/n8n system publishing AI-generated content + images to 70+ websites daily. 90%+ time savings.</div>
+        <div class="project-arrow">↗</div>
+      </div>
+      <div class="project-card" onclick="openModal('webdev')">
+        <div class="project-date">Jan — May 2025</div>
+        <div class="project-title">AI Website Development</div>
+        <div class="project-desc">Production websites built with Lovable & Google AI Studio. Cut dev time from weeks to days.</div>
+        <div class="project-arrow">↗</div>
+      </div>
+      <div class="project-card" onclick="openModal('zoho')">
+        <div class="project-date">2024</div>
+        <div class="project-title">Zoho CRM Commission Automation</div>
+        <div class="project-desc">Sales, invoice, and commission automation in Zoho CRM with AI-assisted workflow logic and custom scripting.</div>
+        <div class="project-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stack-wrap">
+    <p class="section-label">Core Stack</p>
+    <div class="stack-grid">
       <div class="stack-row">
-        <div class="stack-cat-label">AI Assistants</div>
+        <div class="stack-cat">AI</div>
         <div class="stack-badges">
           <span class="badge">Claude</span>
           <span class="badge">Claude Code</span>
@@ -297,30 +485,27 @@
         </div>
       </div>
       <div class="stack-row">
-        <div class="stack-cat-label">Automation</div>
+        <div class="stack-cat">Automation</div>
         <div class="stack-badges">
           <span class="badge">Make.com</span>
           <span class="badge">n8n</span>
           <span class="badge">ClawBot</span>
           <span class="badge">ClawX</span>
+          <span class="badge">OpenCall</span>
+          <span class="badge">Retell AI</span>
         </div>
       </div>
       <div class="stack-row">
-        <div class="stack-cat-label">Web Building</div>
+        <div class="stack-cat">Web</div>
         <div class="stack-badges">
           <span class="badge">Lovable</span>
         </div>
       </div>
       <div class="stack-row">
-        <div class="stack-cat-label">Image / Visual</div>
+        <div class="stack-cat">Visual</div>
         <div class="stack-badges">
           <span class="badge">Leonardo.ai</span>
           <span class="badge">Runway</span>
-        </div>
-      </div>
-      <div class="stack-row">
-        <div class="stack-cat-label">Video / Avatar</div>
-        <div class="stack-badges">
           <span class="badge">HeyGen</span>
           <span class="badge">Nano Banana</span>
         </div>
@@ -328,8 +513,13 @@
     </div>
   </div>
 
+  <footer>
+    <div class="footer-name">Jenny Riemer — AI Automation Strategist</div>
+    <div class="footer-note">Built with AI. Runs without me.</div>
+  </footer>
+
   <div class="modal-overlay" id="modal-overlay" onclick="closeOnOverlay(event)">
-    <div class="modal" id="modal-content">
+    <div class="modal">
       <button class="modal-close" onclick="closeModal()">✕ Close</button>
       <div id="modal-body"></div>
     </div>
@@ -337,6 +527,21 @@
 
   <script>
     const projects = {
+      voiceintake: {
+        date: '2026',
+        title: 'AI Voice Intake System — Social Security Disability',
+        summary: 'Built a fully automated client intake pipeline for Social Security Disability cases. A Retell AI voice agent answers inbound calls and guides callers through 50+ qualifying questions — no human operator required. On call completion, a webhook fires to OpenClaw (computer use agent), which autonomously processes all responses, populates a structured Google Sheet, and sends an email alert when the intake is complete.',
+        items: [
+          'Deployed a Retell AI voice agent to handle inbound calls and conduct full SSD intake interviews autonomously',
+          'Scripted and structured 50+ qualifying questions covering medical history, work history, and disability details',
+          'Configured OpenCall to capture all call data and fire a webhook on call completion',
+          'Built an OpenClaw (computer use) agent to receive the webhook payload and process all intake responses',
+          'Automated population of a structured Google Sheet with organized, labeled intake data per caller',
+          'Set up automated email notification to alert the team when a new intake is fully processed',
+          'Eliminated manual intake calls, data entry, and follow-up coordination entirely',
+          'System runs 24/7 with zero human intervention required from call to completed record'
+        ]
+      },
       clawbot: {
         date: 'Apr 2026 — Present',
         title: 'ClawBot: Autonomous AI Operations Agent',
